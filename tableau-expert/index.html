@@ -1,0 +1,67 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>Tableau de bord · Leslie</title>
+<link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:wght@400;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#301667;--brand2:#7A5AF0;--accent:#E4765A;--bg:#F6F6FA;--card:#fff;--ink:#1d1a2b;--mute:#6b6880;--line:#e6e4f0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Funnel Sans',system-ui,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 18px 60px}
+header{display:flex;align-items:center;gap:16px;justify-content:space-between;flex-wrap:wrap}
+.who{display:flex;align-items:center;gap:14px}.who img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid var(--brand2)}
+h1{font-family:'Space Grotesk';margin:0;font-size:28px;color:var(--brand)}.sub{color:var(--mute);font-size:14px}
+.logo{height:40px}
+.gain{margin:20px 0;background:var(--brand);color:#fff;border-radius:16px;padding:18px 20px;display:flex;gap:28px;flex-wrap:wrap}
+.gain b{font-family:'Space Grotesk';font-size:26px;display:block}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 16px}
+.filters button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font:inherit;cursor:pointer}
+.filters button.on{background:var(--brand2);color:#fff;border-color:var(--brand2)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.kpi .v{font-family:'Space Grotesk';font-size:30px;color:var(--brand)}.kpi .l{color:var(--mute);font-size:13px}
+h2{font-family:'Space Grotesk';color:var(--brand);font-size:18px;margin:28px 0 10px}
+.bars{display:flex;align-items:flex-end;gap:10px;height:150px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:12px;color:var(--mute)}
+.bar i{display:block;width:70%;background:var(--brand2);border-radius:6px 6px 0 0}
+.projs{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.proj{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:12px}
+.proj b{font-size:22px;font-family:'Space Grotesk'}
+ul.list{list-style:none;padding:0;margin:0;background:#fff;border:1px solid var(--line);border-radius:14px}
+ul.list li{padding:11px 14px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:baseline}
+ul.list li:last-child{border:0}.tag{font-size:11px;padding:2px 8px;border-radius:999px;background:#efeafd;color:var(--brand)}
+.tag.rev{background:#fcEAE4;color:#A8432A}.date{margin-left:auto;color:var(--mute);font-size:12px;white-space:nowrap}
+.note{color:var(--mute);font-size:12px;margin-top:22px}
+@media(max-width:480px){h1{font-size:22px}.logo{height:30px}}
+</style></head><body><div class="wrap">
+<header><div class="who"><img src="../img/djeneba.jpg" alt="Leslie"><div><h1>Leslie</h1>
+<div class="sub">Assistante de direction · Mstudio · mis à jour le lundi 19 octobre 2026, 19:26</div></div></div>
+<img class="logo" src="../img/yelema_long.png" alt="Yelema"></header>
+<div class="gain"><div><b id="h">–</b>heures gagnées (estimation)</div><div><b id="lpj">–</b>livrables sur la période</div><div><b>5</b>en attente de retour</div></div>
+<div class="filters" id="f"><button data-p="jour">☀️ Jour</button><button data-p="semaine" class="on">🗓️ Semaine</button><button data-p="mois">📅 Mois</button><button data-p="tout">∞ Tout</button></div>
+<div class="kpis"><div class="kpi"><div class="v" id="k1"></div><div class="l">📦 Livrables</div></div>
+<div class="kpi"><div class="v" id="k2"></div><div class="l">🆕 Documents neufs</div></div>
+<div class="kpi"><div class="v" id="k3"></div><div class="l">🔁 Révisions</div></div>
+<div class="kpi"><div class="v" id="k4"></div><div class="l">📁 Projets actifs</div></div>
+<div class="kpi"><div class="v" id="k5"></div><div class="l">🎯 Acceptés sans révision</div></div>
+<div class="kpi"><div class="v">5</div><div class="l">⏳ En attente de retour</div></div></div>
+<h2>Activité par jour</h2><div class="bars" id="bars"></div>
+<h2>Projets</h2><div class="projs" id="projs"></div>
+<h2>Livrables</h2><ul class="list" id="list"></ul>
+<p class="note">Chiffres tirés des dossiers de livrables. Temps gagné : document 1,5 h, tableur 2 h, présentation ou page web 3 h, révision à 30 %. Les documents confidentiels sont comptés sans être nommés.</p>
+</div><script>
+const D=[{"p":"Flot","t":"Deck · Flot","d":"2026-10-15","k":"Présentation","r":false,"c":false},{"p":"Flot","t":"Design system · Flot","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"Jeko","t":"Deck · Jeko","d":"2026-10-15","k":"Présentation","r":false,"c":false},{"p":"Jeko","t":"Design system · Jeko","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"JuryIvoireTech","t":"Presentations","d":"2026-10-18","k":"Document","r":false,"c":false},{"p":"JuryIvoireTech","t":"Presentations","d":"2026-10-18","k":"Document","r":true,"c":false},{"p":"LinkedIn","t":"🔒 Document confidentiel","d":"2026-10-18","k":"Document","r":false,"c":true},{"p":"Mstudio","t":"Agenda semaine · 19 Octobre","d":"2026-10-19","k":"Web","r":false,"c":false},{"p":"Mstudio","t":"Agenda semaine · 19 Octobre","d":"2026-10-19","k":"Web","r":true,"c":false},{"p":"Mstudio","t":"Grille decision · Stand Salon Epargne","d":"2026-10-16","k":"Document","r":false,"c":false},{"p":"Mstudio","t":"Grille decision · Stand Salon Epargne","d":"2026-10-17","k":"Document","r":true,"c":false},{"p":"Mstudio","t":"Positionnement · Why How What Mstudio Yelema","d":"2026-10-16","k":"Document","r":false,"c":false},{"p":"Mstudio","t":"Tableau direction · Mstudio","d":"2026-10-15","k":"Web","r":false,"c":false},{"p":"Mstudio","t":"Tableau direction · Mstudio","d":"2026-10-15","k":"Web","r":true,"c":false},{"p":"Mstudio","t":"Tableau semaine · 19 Octobre","d":"2026-10-17","k":"Web","r":false,"c":false},{"p":"Mstudio","t":"Tableau semaine · 19 Octobre","d":"2026-10-17","k":"Web","r":true,"c":false},{"p":"SNPC","t":"Bloc signature · Snpc","d":"2026-10-16","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Brief rdv · client","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Brief reunion · client 20 10","d":"2026-10-16","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Briefing matin · 19 10","d":"2026-10-16","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Briefing matin · Snpc","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Courrier relance · client","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Courriers officiels · Avocat Banque","d":"2026-10-16","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Deck · Comite","d":"2026-10-15","k":"Présentation","r":false,"c":false},{"p":"SNPC","t":"Dossier comite · 22 10","d":"2026-10-16","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Dossier deplacement · Bouake","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Email absence · Snpc","d":"2026-10-16","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Email creneaux · Snpc","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Email decliner · Salon Batir","d":"2026-10-16","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Email decliner · Salon Batir","d":"2026-10-16","k":"Document","r":true,"c":false},{"p":"SNPC","t":"Email demande rdv · client","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Email relance · client","d":"2026-10-16","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Email remerciement · client","d":"2026-10-16","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Email report annulation · Snpc","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Email transmission · client","d":"2026-10-16","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Email transmission · client","d":"2026-10-16","k":"Document","r":true,"c":false},{"p":"SNPC","t":"🔒 Document confidentiel","d":"2026-10-15","k":"Document","r":false,"c":true},{"p":"SNPC","t":"Kanban · Demandes","d":"2026-10-16","k":"Tableur","r":false,"c":false},{"p":"SNPC","t":"Kit rdv · client","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Kit rdv · client","d":"2026-10-15","k":"Document","r":true,"c":false},{"p":"SNPC","t":"Note de service · Relance Impayes","d":"2026-10-16","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Note preparation · Comite","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"SNPC","t":"One pager · Impayes","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Ordre de mission · Recouvrement","d":"2026-10-16","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Pack comite · 22 10","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Point fin journee · Snpc","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Radar hebdo · Snpc","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Releve decisions et diffusion · Snpc","d":"2026-10-16","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Releve decisions et diffusion · Snpc","d":"2026-10-16","k":"Document","r":true,"c":false},{"p":"SNPC","t":"Releve decisions · Recouvrement","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Reponse email · client","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Revue de presse · Snpc","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Suivi engagements · Snpc","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Tableau de bord · Direction","d":"2026-10-16","k":"Web","r":false,"c":false},{"p":"SNPC","t":"Tableau direction · Snpc","d":"2026-10-15","k":"Web","r":false,"c":false},{"p":"SNPC","t":"Tableur reference · Snpc","d":"2026-10-16","k":"Document","r":false,"c":false},{"p":"SNPC","t":"Tracker taches · Snpc","d":"2026-10-16","k":"Tableur","r":false,"c":false},{"p":"SNPC","t":"Whatsapp · client","d":"2026-10-15","k":"Document","r":false,"c":false},{"p":"Suivi","t":"Vue projets suspens relances","d":"2026-10-17","k":"Document","r":false,"c":false},{"p":"Veille-VC","t":"🔒 Document confidentiel","d":"2026-10-18","k":"Document","r":false,"c":true},{"p":"Veille-VC","t":"🔒 Document confidentiel","d":"2026-10-18","k":"Document","r":false,"c":true},{"p":"Veille-VC","t":"Top5 fonds VC afrique francophone 2026","d":"2026-10-18","k":"Document","r":false,"c":false},{"p":"Veille-financements","t":"Subventions agritech afrique","d":"2026-10-18","k":"Tableur","r":false,"c":false},{"p":"Yelema","t":"Profil · Djeneba","d":"2026-10-14","k":"Document","r":false,"c":false}];const T=new Date('2026-10-19');
+const mon=new Date(T);mon.setDate(T.getDate()-((T.getDay()+6)%7));
+const B={"Web":3,"Présentation":3,"Tableur":2,"Document":1.5};
+function ok(d,p){const x=new Date(d);if(p=='jour')return d=='2026-10-19';if(p=='semaine')return x>=mon&&x<=T;if(p=='mois')return x.getMonth()==T.getMonth()&&x.getFullYear()==T.getFullYear();return true}
+function draw(p){const s=D.filter(i=>ok(i.d,p));const n=s.filter(i=>!i.r);
+const revT=new Set(D.filter(i=>i.r).map(i=>i.p+i.t));
+k1.textContent=s.length;k2.textContent=n.length;k3.textContent=s.length-n.length;
+k4.textContent=new Set(s.map(i=>i.p)).size;
+k5.textContent=n.length?Math.round(100*n.filter(i=>!revT.has(i.p+i.t)).length/n.length)+' %':'–';
+h.textContent=s.reduce((a,i)=>a+B[i.k]*(i.r?.3:1),0).toLocaleString('fr-FR',{maximumFractionDigits:1});lpj.textContent=s.length;
+const c={};s.forEach(i=>c[i.d]=(c[i.d]||0)+1);const ks=Object.keys(c).sort().slice(-10);const mx=Math.max(1,...Object.values(c));
+bars.innerHTML=ks.map(k=>`<div class="bar"><span>${c[k]}</span><i style="height:${100*c[k]/mx}%"></i><span>${k.slice(8)}/${k.slice(5,7)}</span></div>`).join('')||'<span class="sub">Rien sur la période</span>';
+const pc={};s.forEach(i=>pc[i.p]=(pc[i.p]||0)+1);
+projs.innerHTML=Object.entries(pc).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="proj"><b>${v}</b><div>${k}</div></div>`).join('');
+list.innerHTML=s.slice().sort((a,b)=>b.d.localeCompare(a.d)).map(i=>`<li><span class="tag ${i.r?'rev':''}">${i.r?'Révision':i.k}</span>${i.t}<span class="date">${i.d.slice(8)}/${i.d.slice(5,7)}</span></li>`).join('');}
+f.onclick=e=>{if(!e.target.dataset.p)return;[...f.children].forEach(b=>b.classList.toggle('on',b==e.target));draw(e.target.dataset.p)};draw('semaine');
+</script></body></html>
